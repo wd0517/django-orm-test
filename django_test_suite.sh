@@ -17,6 +17,8 @@ set -x pipefail
 # Disable buffering, so that the logs stream through.
 export PYTHONUNBUFFERED=1
 
+mysql -h 127.0.0.1 -P 4000 -u root < init.sql
+
 export DJANGO_TESTS_DIR="django_tests_dir"
 mkdir -p $DJANGO_TESTS_DIR
 
