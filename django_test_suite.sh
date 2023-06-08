@@ -17,8 +17,6 @@ set -x pipefail
 # Disable buffering, so that the logs stream through.
 export PYTHONUNBUFFERED=1
 
-mysql -h 127.0.0.1 -P 4000 -u root < init.sql
-
 export DJANGO_TESTS_DIR="django_tests_dir"
 mkdir -p $DJANGO_TESTS_DIR
 
@@ -27,7 +25,8 @@ pip3 install .
 cp tidb_settings.py $DJANGO_TESTS_DIR/django/tidb_settings.py
 cp tidb_settings.py $DJANGO_TESTS_DIR/django/tests/tidb_settings.py
 
-cd $DJANGO_TESTS_DIR/django && pip3 install -e . && pip3 install -r tests/requirements/py3.txt && pip3 install -r tests/requirements/mysql.txt; cd ../../
+# cd $DJANGO_TESTS_DIR/django && pip3 install -e . && pip3 install -r tests/requirements/py3.txt && pip3 install -r tests/requirements/mysql.txt; cd ../../
+cd $DJANGO_TESTS_DIR/django && pip3 install -e . && cd ../../
 cd $DJANGO_TESTS_DIR/django/tests
 
 python3 runtests.py $DJANGO_TEST_APPS --keepdb --noinput --settings tidb_settings
