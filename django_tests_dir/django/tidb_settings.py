@@ -26,8 +26,8 @@ DATABASES = {
         'ENGINE': 'django_tidb',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': 4000,
+        'HOST': hosts,
+        'PORT': port,
         'TEST': {
             'NAME': 'django_tests',
             'CHARSET': 'utf8mb4',
