@@ -52,8 +52,6 @@ coverage.xml
 cover/
 
 # Translations
-*.mo
-!**/en/LC_MESSAGES/*.mo
 *.pot
 
 # Django stuff:
