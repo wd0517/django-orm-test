@@ -4,12 +4,30 @@ RUN apt-get update \
         gcc \
         default-libmysqlclient-dev \
         default-mysql-client \
+        wget \
     && apt-get clean \
     && apt-get remove --purge --auto-remove -y \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /usr/src/app
+
+RUN wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz \
+    && rm -rf go1.20.5.darwin-arm64.tar.gz
+ENV PATH=$PATH:/usr/local/go/bin
+
 COPY ./requirements.txt /usr/src/app
 RUN pip install -r /usr/src/app/requirements.txt -i https://pypi.douban.com/simple/
 
-RUN mkdir -p /home/jenkins/app
-WORKDIR /home/jenkins/app
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1000
+ARG gid=1000
+
+ENV HOME /home/${user}
+RUN groupadd -g ${gid} ${group} \
+    && useradd -d "/home/${user}" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+
+RUN mkdir -p /home/jenkins/
+
+USER ${user}
+WORKDIR /home/${user}
